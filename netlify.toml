@@ -14,3 +14,5 @@
   NEXT_PUBLIC_LOGO_URL = "A link to the logo for your community"
   NEXT_PUBLIC_BACKGROUND = "Background colour hex (without the #)"
   NEXT_PUBLIC_NAME = "Name for your website"
+  GAME_TITLE = "Name of game you want to show (optional)"
+  STREAM_TITLE_REGEX = "A REGEX for the streamer's title (optional)"
