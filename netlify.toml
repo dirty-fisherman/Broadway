@@ -6,6 +6,12 @@
   directory = "functions/"
   included_files = ["data/**"]
 
+[[redirects]]
+  from = "/_next/static/*"
+  to = "/static/:splat"
+  status = 301
+  force = true
+
 [template.environment]
   TWITCH_CLIENT_ID = "Twitch client id"
   TWITCH_CLIENT_SECRET = "Twitch client secret"
