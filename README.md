@@ -78,6 +78,7 @@ If you have a Twitch developer account you can get these credentials over at htt
 ### Running Locally
 
 - Clone this repo
+- Install Netlify CLI `npm install netlify-cli -g`
 - Install dependencies with `npm install`
 - Start the dev server with `netlify dev`
 
@@ -94,6 +95,8 @@ NEXT_PUBLIC_DISCORD_URL=https://discord.com/
 NEXT_PUBLIC_LOGO_URL=https://i.imgur.com/Kd6rnLN.png
 NEXT_PUBLIC_BACKGROUND=2e2b38
 NEXT_PUBLIC_NAME=Broadway Demo Site
+GAME_TITLE=Grand Theft Auto V
+STREAM_TITLE_REGEX=/([A-Z])\w+/g
 ```
 
 ### Streamer list
