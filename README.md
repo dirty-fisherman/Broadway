@@ -96,7 +96,7 @@ NEXT_PUBLIC_LOGO_URL=https://i.imgur.com/Kd6rnLN.png
 NEXT_PUBLIC_BACKGROUND=2e2b38
 NEXT_PUBLIC_NAME=Broadway Demo Site
 GAME_TITLE=Grand Theft Auto V
-STREAM_TITLE_REGEX=/([A-Z])\w+/g
+STREAM_TITLE_FILTER=WildRP
 ```
 
 ### Streamer list
