@@ -31,7 +31,6 @@ exports.handler = async (event, context, callback) => {
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
     if (GAME_TITLE) {
-      console.log(GAME_TITLE)
       allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
     }
     if (STREAM_TITLE_FILTER) {
