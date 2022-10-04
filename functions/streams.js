@@ -2,7 +2,7 @@ const qs = require('querystring');
 const axios = require('axios');
 const { streamers } = require('./data/streamers.json');
 
-const { GAME_TITLE, STREAM_TITLE_REGEX } = process.env;
+const { GAME_TITLE, STREAM_TITLE_FILTER} = process.env;
 
 exports.handler = async (event, context, callback) => {
   const opts = {
