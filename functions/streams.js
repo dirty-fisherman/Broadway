@@ -34,9 +34,8 @@ exports.handler = async (event, context, callback) => {
       console.log(GAME_TITLE)
       allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
     }
-    if (STREAM_TITLE_REGEX) {
-      const regex = new RegExp(STREAM_TITLE_REGEX);
-      allowStreamer = streamer.title.match(regex) && allowStreamer;
+    if (STREAM_TITLE_FILTER) {
+      allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
     }
     return allowStreamer;
   }
