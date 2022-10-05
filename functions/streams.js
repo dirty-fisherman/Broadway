@@ -42,7 +42,7 @@ exports.handler = async (event, context, callback) => {
         allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
       }
       if (hasStreamTitleFilter) {
-        allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
+        allowStreamer = streamer.title && streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
       }
       return allowStreamer;
     }
