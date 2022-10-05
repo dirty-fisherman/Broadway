@@ -29,21 +29,19 @@ exports.handler = async (event, context, callback) => {
       'Client-ID': process.env.TWITCH_CLIENT_ID,
       Authorization: `Bearer ${data.access_token}`,
     }
-  }))).then(responses => {    
+  }))).then(responses => {
     let combinedData = [];
 
     const streamerFilter = (streamer) => {
+      const hasGameTitleFilter = typeof GAME_TITLE === 'undefined' || GAME_TITLE === null;
+      const hasStreamTitleFilter = typeof STREAM_TITLE_FILTER === 'undefined' || STREAM_TITLE_FILTER === null;
+
       let allowStreamer = true;
 
-      console.log({ 
-        GAME_TITLE,
-        STREAM_TITLE_FILTER
-      })
-
-      if (GAME_TITLE) {
+      if (hasGameTitleFilter) {
         allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
       }
-      if (STREAM_TITLE_FILTER) {
+      if (hasStreamTitleFilter) {
         allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
       }
       return allowStreamer;
@@ -53,7 +51,9 @@ exports.handler = async (event, context, callback) => {
       combinedData.push(responses[i].data.data);
     }
 
-    return combinedData.flat(1).filter(streamerFilter)
+    const flattenedCombinedData = combinedData.flat(1);
+
+    return flattenedCombinedData.filter(streamerFilter)
   }).catch(error => {
     console.log(error)
   });
