@@ -1,9 +1,10 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
-import Streamer from '@components/Streamer'
-import Spinner from '@components/Spinner'
-import { useEffect, useState } from 'react'
+import Head from 'next/head';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
+import Streamer from '@components/Streamer';
+import Spinner from '@components/Spinner';
+import OfflineMessage from '@components/OfflineMessage';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function Home() {
             ...itm
           }));
 
-        data = mergeById(streams.streams, users.users)
+        data = mergeById(streams.streams, users.users);
         setData(data);
         setIsLoading(false);
       })
@@ -41,6 +42,7 @@ export default function Home() {
         <Header />
         <div className="content">
           <div className='stream-grid'>
+            {!isLoading && !data.length && <OfflineMessage />}
             {!isLoading && data
               .map((streamer) =>
                 <Streamer
