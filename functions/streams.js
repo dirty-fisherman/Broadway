@@ -21,7 +21,7 @@ exports.handler = async (event, context, callback) => {
 
   for (let i = 0; i < streamerList.length; i += chunkSize) {
     const chunk = streamerList.slice(i, i + chunkSize);
-    urls.push(`https://api.twitch.tv/helix/streams?user_login=${streamerList.join('&user_login=')}`);
+    urls.push(`https://api.twitch.tv/helix/streams?user_login=${chunk.join('&user_login=')}`);
   }
 
   const getStreams = () => Promise.all(urls.map((url) => axios.get(url, {
@@ -34,6 +34,12 @@ exports.handler = async (event, context, callback) => {
 
     const streamerFilter = (streamer) => {
       let allowStreamer = true;
+
+      console.log({ 
+        GAME_TITLE,
+        STREAM_TITLE_FILTER
+      })
+
       if (GAME_TITLE) {
         allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
       }
@@ -48,6 +54,8 @@ exports.handler = async (event, context, callback) => {
     }
 
     return combinedData.flat(1).filter(streamerFilter)
+  }).catch(error => {
+    console.log(error)
   });
 
 

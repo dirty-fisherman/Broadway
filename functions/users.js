@@ -36,6 +36,8 @@ exports.handler = async (event, context, callback) => {
     }
 
     return combinedData.flat(1)
+  }).catch(error => {
+    console.log(error)
   });
 
   
