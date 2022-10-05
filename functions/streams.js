@@ -33,8 +33,8 @@ exports.handler = async (event, context, callback) => {
     let combinedData = [];
 
     const streamerFilter = (streamer) => {
-      const hasGameTitleFilter = typeof GAME_TITLE === 'undefined' || GAME_TITLE === null;
-      const hasStreamTitleFilter = typeof STREAM_TITLE_FILTER === 'undefined' || STREAM_TITLE_FILTER === null;
+      const hasGameTitleFilter = !!(typeof GAME_TITLE === 'undefined' || GAME_TITLE === null);
+      const hasStreamTitleFilter = !!(typeof STREAM_TITLE_FILTER === 'undefined' || STREAM_TITLE_FILTER === null);
 
       let allowStreamer = true;
 
@@ -42,7 +42,7 @@ exports.handler = async (event, context, callback) => {
         allowStreamer = streamer.game_name === GAME_TITLE && allowStreamer;
       }
       if (hasStreamTitleFilter) {
-        allowStreamer = streamer.title && streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
+        allowStreamer = streamer.title.toLowerCase().includes(STREAM_TITLE_FILTER.toLowerCase()) && allowStreamer;
       }
       return allowStreamer;
     }
