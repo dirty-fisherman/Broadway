@@ -1,4 +1,6 @@
 .offlineWrapper {
    text-align: center;
    font-size: 24pt;
+   font-weight: 600;
+   width: 100%;
 }
