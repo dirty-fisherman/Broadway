@@ -1,10 +1,8 @@
 const qs = require('querystring');
-const axios = require('axios');
 const { streamers } = require('./data/streamers.json');
+const { GAME_TITLE, STREAM_TITLE_FILTER } = process.env;
 
-const { GAME_TITLE, STREAM_TITLE_FILTER} = process.env;
-
-exports.handler = async (event, context, callback) => {
+export default async function handler(req, res) {
   const opts = {
     client_id: process.env.TWITCH_CLIENT_ID,
     client_secret: process.env.TWITCH_CLIENT_SECRET,
@@ -14,12 +12,11 @@ exports.handler = async (event, context, callback) => {
 
   const streamerList = streamers.length ? streamers : process.env.STREAMERS.split(',');
   const params = qs.stringify(opts);
-  const { data } = await axios.post(`https://id.twitch.tv/oauth2/token?${params}`);
+  const response = await fetch(`https://id.twitch.tv/oauth2/token?${params}`, { method: "POST" });
+  const data = await response.json();
   const url = `https://api.twitch.tv/helix/streams?user_login=${streamerList.join('&user_login=')}`;
 
-  const {
-    data: { data: streams },
-  } = await axios.get(url,
+  const request = await fetch(url,
     {
       headers: {
         'Client-ID': process.env.TWITCH_CLIENT_ID,
@@ -27,6 +24,7 @@ exports.handler = async (event, context, callback) => {
       },
     }
   )
+  const { data: streams } = await request.json();
 
   const streamerFilter = (streamer) => {
     let allowStreamer = true;
@@ -39,14 +37,7 @@ exports.handler = async (event, context, callback) => {
     return allowStreamer;
   }
 
-  filteredStreams = streams.filter(streamerFilter);
+  const filteredStreams = streams.filter(streamerFilter);
 
-  callback(null, {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({ streams: filteredStreams }),
-  })
+  res.status(200).json({ streams: filteredStreams });
 }

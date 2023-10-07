@@ -2,11 +2,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
   box-sizing: border-box;
 }
 
@@ -16,10 +18,13 @@ body {
 }
 
 .stream-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 32px;
-    padding: 32px 0 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-gap: 32px;
+  gap: 32px;
+  padding: 32px 0;
+  width: 100%;
+  align-self: flex-start;
 }
 
 .container {
@@ -41,4 +46,5 @@ main {
   flex-grow: 1;
   align-items: center;
   justify-items: center;
+  display: flex;
 }

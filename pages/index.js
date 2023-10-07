@@ -1,17 +1,17 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
-import Streamer from '@components/Streamer'
-import Spinner from '@components/Spinner'
-import { useEffect, useState } from 'react'
+import Head from 'next/head';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
+import Streamer from '@components/Streamer';
+import Spinner from '@components/Spinner';
+import OfflineMessage from '@components/OfflineMessage';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const urls = ['/.netlify/functions/streams', '/.netlify/functions/users'];
-
+    const urls = ['/api/streams', '/api/users'];
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
       .then(([streams, users]) => {
         let data = [];
@@ -23,11 +23,11 @@ export default function Home() {
             ...itm
           }));
 
-        data = mergeById(streams.streams, users.users)
+        data = mergeById(streams.streams, users.users);
         setData(data);
         setIsLoading(false);
       })
-      .catch(error => console.log(error));
+      .catch(error => setIsLoading(false));
   }, []);
 
   return (
@@ -41,6 +41,7 @@ export default function Home() {
         <Header />
         <div className="content">
           <div className='stream-grid'>
+            {!isLoading && !data.length && <OfflineMessage />}
             {!isLoading && data
               .map((streamer) =>
                 <Streamer
