@@ -11,8 +11,7 @@ export default function Home() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const urls = ['/.netlify/functions/streams', '/.netlify/functions/users'];
-
+    const urls = ['/api/streams', '/api/users'];
     Promise.all(urls.map(url => fetch(url).then(r => r.json())))
       .then(([streams, users]) => {
         let data = [];
@@ -28,7 +27,7 @@ export default function Home() {
         setData(data);
         setIsLoading(false);
       })
-      .catch(error => console.log(error));
+      .catch(error => setIsLoading(false));
   }, []);
 
   return (

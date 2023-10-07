@@ -1,8 +1,7 @@
 const qs = require('querystring');
-const axios = require('axios');
 const { streamers } = require('./data/streamers.json');
 
-exports.handler = async (event, context, callback) => {
+export default async function (req, res) {
   const opts = {
     client_id: process.env.TWITCH_CLIENT_ID,
     client_secret: process.env.TWITCH_CLIENT_SECRET,
@@ -12,13 +11,11 @@ exports.handler = async (event, context, callback) => {
 
   const streamerList = streamers.length ? streamers : process.env.STREAMERS.split(',');
   const params = qs.stringify(opts);
-  const { data } = await axios.post(`https://id.twitch.tv/oauth2/token?${params}`);
+  const response = await fetch(`https://id.twitch.tv/oauth2/token?${params}`, { method: "POST" });
+  const data = await response.json();
   const url = `https://api.twitch.tv/helix/users?login=${streamerList.join('&login=')}`;
-  
 
-  const {
-    data: { data: users },
-  } = await axios.get(url,
+  const request = await fetch(url,
     {
       headers: {
         'Client-ID': process.env.TWITCH_CLIENT_ID,
@@ -27,12 +24,7 @@ exports.handler = async (event, context, callback) => {
     }
   )
 
-  callback(null, {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({ users }),
-  })
+  const { data: users } = await request.json();
+
+  res.status(200).json({ users });
 }
